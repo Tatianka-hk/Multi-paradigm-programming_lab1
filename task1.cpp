@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <map>
+
 using namespace std;
 
 int main()
@@ -25,7 +25,7 @@ int main()
         getline(file, w);
         // cout << w << endl;
         int i = 0;
-    read_world:
+    read_word:
         string s;
     cycle_word:
         if (i < w.size()) {
@@ -33,7 +33,7 @@ int main()
             ch = tolower(ch);
             s += ch;
             i++;
-            if (w[i] != ' ' and w[i] != ' ' and w[i] != '!' and w[i] != '?' and w[i] != '.' and w[i] != ',' and w[i] != ';' and w[i] != ':' and !isdigit(w[i])) {
+            if (w[i] != ' ' and w[i] != ' ' and w[i] != '!' and w[i] != '?' and w[i] != '.' and w[i] != ',' and w[i] != ';' and w[i] != ':' and !isdigit(w[i]) and w[i] != '(' and w[i] != '[' and w[i] != '-' and w[i] != ')' and w[i] != ']' and w[i] != '_') {
                 goto cycle_word;
             }
             else {
@@ -57,14 +57,14 @@ int main()
                 goto check;
             }
         }
-        if (s != "for " and s != "the" and flag == true) {
+        if (s != "for " and s != "the" and flag == true and s.size()>1) {
             mp[mpi][0] = s;
             mp[mpi][1] = "1";
             mpi++;
         }
         //cout << s << endl;
         if (i < w.size()) {
-            goto read_world;
+            goto read_word;
         }
 
         //cout << s << endl;
@@ -76,6 +76,7 @@ int main()
     else {
         cout << "file not found!!!!" << endl;
     }
+    file.close();
     //=========================================================
     //sort
     int i1 = 0;
@@ -105,9 +106,14 @@ sort_cycle_2:
     }
     //=========================================================
     //output
+    string file_name1;
+    cout << "Enter output file name: "; cin >> file_name1;
+    file_name1 += ".txt";
+    ofstream output_file;
+    output_file.open(file_name1);
     int it = 0;
 output:
-    cout << mp[it][0] << "-" << mp[it][1] << endl;
+    output_file << mp[it][0] << "-" << mp[it][1] << endl;
     it++;
     if (it < mpi and it < n) {
         goto output;
